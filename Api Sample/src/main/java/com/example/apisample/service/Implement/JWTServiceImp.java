@@ -6,6 +6,7 @@ import com.example.apisample.exception.userservice.InvalidateException;
 import com.example.apisample.exception.userservice.UserDoesNotExistException;
 import com.example.apisample.service.Interface.JWTService;
 import com.example.apisample.service.Interface.UserService;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,7 +15,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,8 +25,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JWTServiceImp implements JWTService {
     private final UserService userService;
-
-    private static final String SECRET_KEY = "ownrJE4LNVXTBOUdVZ2xmJ7VSDNhKTRJsagLsdS3jLfsOY91basfKf";
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String SECRET_KEY = dotenv.get("JWT_SECRET");
 
     @Override
     public Claims extractAllClaims(String token) {

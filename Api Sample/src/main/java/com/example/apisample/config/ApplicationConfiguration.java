@@ -1,6 +1,8 @@
 package com.example.apisample.config;
 
 import com.example.apisample.repository.UserRepository;
+import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,4 +46,12 @@ public class ApplicationConfiguration {
         return authProvider;
     }
 
+    @PostConstruct
+    public void init() {
+        Dotenv dotenv = Dotenv.load();
+
+        System.setProperty("DB_URL", dotenv.get("DB_URL"));
+        System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
+        System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+    }
 }
